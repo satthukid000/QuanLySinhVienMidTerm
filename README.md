@@ -23,7 +23,7 @@ Hãy dùng các lệnh sau để clone rep về:
 
     $ mkdir QLSV
     $ cd QLSV
-    $ git clone 
+    $ git clone https://github.com/satthukid000/QuanLySinhVienMidTerm.git
 
 ### Tải source code bằng file zip
 Bạn cũng có thể tải về toàn bộ source code của Godchat bằng một [file zip](https://github.com/satthukid000/Project-Godchat/archive/refs/heads/main.zip). Mặc dù cách này đỡ rườm rà hơn, nhưng bạn sẽ phải tự đi mà tải lại để tự đồng bộ với repo của tôi. 
