@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:background="@drawable/border"
+            android:layout_weight="0.2">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:weightSum="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:gravity="start"
+                android:layout_marginStart="5dp"
+                android:text="@string/ID"
+                android:textSize="15dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:layout_weight="0.4"
+                android:layout_marginStart="5dp"
+                android:gravity="start"
+                android:text="@string/name"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:layout_weight="0.3"
+                android:layout_marginStart="5dp"
+                android:gravity="start"
+                android:text="@string/Class"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:weightSum="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:textSize="18dp"
+
+                android:gravity="center_vertical|center_horizontal"
+                android:id="@+id/tvMaSV"
+                android:text="Mã"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:textAlignment="center"
+                android:id="@+id/tvTenSV"
+
+                android:textSize="18dp"
+                android:text="tên"/>
+
+            <TextView
+                android:id="@+id/tvLopSV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="Lớp"
+
+                android:textAlignment="center"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

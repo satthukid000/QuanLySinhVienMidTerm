@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">Midterm Project</string>
+
+    <!--LoginPage Activity-->
+    <string name="project_name">Midterm Project</string>
+    <string name="Login_Btn">Login</string>
+    <string name="LoginAnounymous_Btn">Anonymous Login</string>
+    <string name="forget_pass"><u><b>Forgot your password?</b></u></string>
+    <string name="empty_username_pass">Please enter your username and password</string>
+    <string name="register_text"><u>Don\'t have an account? Register</u>s</string>
+
+    <!--Register Activity-->
+    <string name="InputFirstName">Input First Name</string>
+    <string name="InputLastName">Input Last Name</string>
+    <string name="InputUserName">Input Username</string>
+    <string name="InputPassword">Input Password</string>
+    <string name="InputDOB">Input Date Of Birth</string>
+    <string name="InputEmail">Input Email</string>
+    <string name="RepeatEmail">Repeat Email</string>
+
+    <!--Creating account log-->
+    <string name="creating_account">Creating account...</string>
+    <string name="please_wait">Please wait for a minute...</string>
+    <!--Dark Mode Setting Activity-->
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="Use_system_settings">Use system settings</string>
+    <string name="based_on_setting">We\'ll adjust your appearance based on your device\'s system.</string>
+
+
+    <string name="Profil_Information">Profile Information</string>
+
+    <!--Language Activity-->
+    <string name="vietnamese_lang">Vietnamese</string>
+    <string name="english_lang">English</string>
+
+    <!--Personal Account Information Activity-->
+    <string name="Full_Name">Full Name</string>
+
+
+    <string name="About_Me">About me</string>
+    <string name="Class">Class</string>
+    <string name="ID">ID</string>
+    <string name="name">Name</string>
+    <string name="PhoneNum">Phone Number</string>
+    <string name="DOB">Date Of Birth</string>
+    <string name="add">Add</string>
+    <string name="gender">Gender</string>
+    <string name="go_back">Go Back</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="exit">Exit</string>
+    <string name="create">Create</string>
+    <string name="view">View</string>
+    <string name="commit">Commit</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="class_id">Class ID</string>
+    <string name="class_name">Class Name</string>
+
+</resources>

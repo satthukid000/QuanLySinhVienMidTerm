@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Đồ Án Giữa Kỳ</string>
+    <!--LoginPage Activity-->
+    <string name="project_name">Đồ Án Giữa Kỳ</string>
+    <string name="Login_Btn">Đăng nhập</string>
+    <string name="LoginAnounymous_Btn">Đăng Nhập Ẩn Danh</string>
+    <string name="empty_username_pass">Xin hãy nhập username và password</string>
+    <string name="register_text"><u>Không có tài khoản?</u></string>
+    <!--Register Activity-->
+    <string name="InputFirstName">Nhập Tên</string>
+    <string name="InputLastName">Nhập Họ</string>
+    <string name="InputUserName">Nhập Username</string>
+    <string name="InputPassword">Nhập Mật Khẩu</string>
+    <string name="InputDOB">Nhập Ngày Sinh</string>
+    <string name="InputEmail">Nhập Email</string>
+    <string name="RepeatEmail">Nhập Lại Email</string>
+    <!--Getting Started Alternative 1,2,3 Activity-->
+    <string name="forget_pass">Quên mật khẩu?</string>
+    <!--Creating account log-->
+    <string name="creating_account">Đang tạo tài khoản...</string>
+    <string name="please_wait">Phải đợi một chút...</string>
+    <!--Dark Mode Setting Activity-->
+    <string name="on">Bật</string>
+    <string name="off">Tắt</string>
+    <string name="Use_system_settings">Dùng cài đặt hệ thống</string>
+    <string name="based_on_setting">Chúng tôi sẽ điều chỉnh dựa trên cài đặt hệ thống trên thiết bị của bạn.</string>
+
+    <string name="Profil_Information">Thông Tin Cá Nhân</string>
+
+
+    <string name="vietnamese_lang">Tiếng Việt</string>
+    <string name="english_lang">Tiếng Anh</string>
+
+
+    <string name="Full_Name">Tên</string>
+
+
+    <string name="About_Me">Thông tin cá nhân</string>
+    <string name="Class">Lớp</string>
+    <string name="ID">MSSV</string>
+    <string name="name">Tên</string>
+    <string name="PhoneNum">Số điện thoại</string>
+    <string name="DOB">Ngày Sinh</string>
+
+    <string name="add">Thêm</string>
+    <string name="gender">Giới tính</string>
+
+    <string name="go_back">Trở về</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="remove">Xoá</string>
+    <string name="exit">Thoát</string>
+</resources>
