@@ -56,6 +56,13 @@ public class ViewChiTietActivity extends AppCompatActivity {
                 onBackPressed(); //bấm nút trở về thì sẽ tự bấm nút trở về
             }
         });
+        btnCreateDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewChiTietActivity.this, CreateOrEditActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void addControls() {

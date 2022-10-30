@@ -36,7 +36,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_edit);
-
+        dsSV = new ArrayList<>();
         addControls();
         addEvents();
     }
@@ -108,8 +108,14 @@ public class CreateOrEditActivity extends AppCompatActivity {
                 phai = false;
             Lop lop = new Lop(malop, tenlop);
             SinhVien sinhVien = new SinhVien(ma, ten, email, ngaysinh, phai, lop);
-            Intent intent = new Intent(CreateOrEditActivity.this, MainActivity.class);
-            startActivity(intent);
+
+            dsSV.add(sinhVien);
+
+//            Intent intent = new Intent();
+//            intent.putExtra("danhsach", dsSV); //đưa dsSV dưới dạng serializable với tên danhsach
+//            intent.putExtra("vitrisv", viTriSV); //truyền vị trí sinh viên qua bên View Chi Tiết
+//            setResult(RESULT_OK, intent);
+//            finish();
         }
     }
 
@@ -129,7 +135,9 @@ public class CreateOrEditActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
 
         Intent intent = getIntent();
+        dsSV = new ArrayList<>();
         dsSV = (ArrayList<SinhVien>) intent.getSerializableExtra("danhsach");     //lấy serializable với tên danhsach từ bên kia gửi qua
+
         viTriSV = intent.getIntExtra("vitrisv",-1); //để lấy vị trí sinh viên trong array list bên kia gửi qua
 
     }

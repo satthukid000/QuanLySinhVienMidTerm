@@ -1,6 +1,7 @@
 package vn.edu.stu.doangiuakymobile;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateOrEditActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -153,6 +154,20 @@ public class MainActivity extends AppCompatActivity {
         if(vitriSinhVien>=0 && vitriSinhVien<dsSinhViens.size()){
             dsSinhViens.remove(vitriSinhVien);
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode==RESULT_OK)
+            {
+                //cập nhật lại danh sách sinh viên sau khi thêm
+                dsSinhViens = (ArrayList<SinhVien>) data.getSerializableExtra("danhsach");
+                vitriSinhVien = data.getIntExtra("vitrisv", -1); //lấy vị trí cho chắc
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 }
