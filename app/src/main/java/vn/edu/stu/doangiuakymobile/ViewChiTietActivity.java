@@ -1,10 +1,13 @@
 package vn.edu.stu.doangiuakymobile;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,12 +81,12 @@ public class ViewChiTietActivity extends AppCompatActivity {
     }
 
     private void xoaChiTietThongTin() {
-//        tvNameDetail.setText("");
-//        tvIDDetail.setText("");
-//        tvClassDetail.setText("");
-//        tvEmailDetai.setText("");
-//        tvDOBDetail.setText("");
-//        tvGenderDetail.setText("");
+        tvNameDetail.setText("");
+        tvIDDetail.setText("");
+        tvClassDetail.setText("");
+        tvEmailDetai.setText("");
+        tvDOBDetail.setText("");
+        tvGenderDetail.setText("");
         Intent intentxoa = new Intent();
         intentxoa.putExtra("coxoa", true);
         intentxoa.putExtra("vitrixoa", vitriSV);
@@ -181,6 +184,28 @@ public class ViewChiTietActivity extends AppCompatActivity {
         finish();
 
         super.onBackPressed();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mnuAbout:
+                openAboutMe();
+                break;
+            case R.id.mnuLogout:
+                android.os.Process.killProcess(android.os.Process.myPid());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openAboutMe() {
+        Intent intent = new Intent(ViewChiTietActivity.this, AboutMeActivity.class);
+        startActivity(intent);
     }
 }

@@ -8,6 +8,7 @@ import androidx.appcompat.widget.PopupMenu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -122,6 +123,29 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("vitrisv", vitriSinhVien); //truyền vị trí sinh viên qua bên View Thêm và chỉnh sửa
         intent.putExtra("danhsach", dsSinhViens); //đưa dsSinhViens dưới dạng serializable với tên danhsach
         startActivityForResult(intent,1);
+    }
+    private void openAboutMe() {
+        Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mnuAbout:
+                openAboutMe();
+                break;
+            case R.id.mnuLogout:
+                android.os.Process.killProcess(android.os.Process.myPid());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

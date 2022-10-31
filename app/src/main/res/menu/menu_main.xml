@@ -8,7 +8,6 @@
         app:actionViewClass="android.widget.SearchView" />
 
 
-
     <item android:title="@string/About_Me"
         android:id="@+id/mnuAbout"/>
 
