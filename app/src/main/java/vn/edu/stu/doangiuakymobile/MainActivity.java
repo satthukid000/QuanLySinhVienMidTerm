@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
         Lop lop2 = new Lop("Lớp 2", "Kiến trúc");
         Lop lop3 = new Lop("Lớp 3", "Kỹ Sư");
 
-        SinhVien sv1 = new SinhVien("DH51905495", "Nguyễn Văn Thanh Đức", "ducducthanh2305@gmail.com", "23/05/2001",true, lop1);
-        SinhVien sv2 = new SinhVien("DH51905123", "Hồ Thị Ngọc Hương", "b@gmail.com", "26/05/2001",false, lop1);
-        SinhVien sv3 = new SinhVien("DH51999999", "Nguyễn Thanh Bằng", "bangbang@gmail.com", "22/05/2001",true, lop2);
+        SinhVien sv1 = new SinhVien("DH51905495", "Nguyễn Văn Thanh Đức", "ducducthanh2305@gmail.com", "23/05/2001", true, lop1);
+        SinhVien sv2 = new SinhVien("DH51905123", "Hồ Thị Ngọc Hương", "b@gmail.com", "26/05/2001", false, lop1);
+        SinhVien sv3 = new SinhVien("DH51999999", "Nguyễn Thanh Bằng", "bangbang@gmail.com", "22/05/2001", true, lop2);
 
         dsSinhViens.add(sv1);
         dsSinhViens.add(sv2);
@@ -85,14 +86,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-    }
 
+    }
 
 
     private void addControls() {
         lvSinhVien = findViewById(R.id.lvSinhVien);
         dsSinhViens = new ArrayList<>();
-        adapter =new SinhVienAdapter(MainActivity.this, R.layout.item_sinhvien_container, dsSinhViens);
+        adapter = new SinhVienAdapter(MainActivity.this, R.layout.item_sinhvien_container, dsSinhViens);
         lvSinhVien.setAdapter(adapter);
 
         btnAdd = findViewById(R.id.btnAdd);
@@ -107,27 +108,26 @@ public class MainActivity extends AppCompatActivity {
         popup.show();
     }
 
-    public void xemChiTietThongTin(){
+    public void xemChiTietThongTin() {
         Intent intent = new Intent(MainActivity.this, ViewChiTietActivity.class);
         intent.putExtra("vitrisv", vitriSinhVien); //truyền vị trí sinh viên qua bên View Chi Tiết
         //Bundle args = new Bundle(); //dùng cái này để chứa nguyên cái dsSinhViens để quăng qua bên view chi tiết
         intent.putExtra("danhsach", dsSinhViens); //đưa dsSinhViens dưới dạng serializable với tên danhsach
         //intent.putExtra("Bundle", args);    //truyền args vào view chi tiết với tên Bundle
-        startActivity(intent);
+        startActivityForResult(intent, 2);
     }
 
-    public void chinhSuaChiTietThongTin(){
-        Intent intent = new Intent(MainActivity.this, CreateOrEditActivity.class);
+    public void chinhSuaChiTietThongTin() {
+        Intent intent = new Intent(getApplicationContext(), CreateOrEditActivity.class);
         intent.putExtra("vitrisv", vitriSinhVien); //truyền vị trí sinh viên qua bên View Thêm và chỉnh sửa
         intent.putExtra("danhsach", dsSinhViens); //đưa dsSinhViens dưới dạng serializable với tên danhsach
-        startActivity(intent);
+        startActivityForResult(intent,1);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        if(v.getId()==R.id.lvSinhVien)
-        {
+        if (v.getId() == R.id.lvSinhVien) {
             getMenuInflater().inflate(R.menu.menu_context, menu); //nạp file menu context
         }
     }
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 chinhSuaChiTietThongTin();
                 break;
             case R.id.mnuRemove:
-                xoaThongTin();
+                xoaThongTin(vitriSinhVien);
                 break;
             default:
                 break;
@@ -150,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
-    private void xoaThongTin() {
-        if(vitriSinhVien>=0 && vitriSinhVien<dsSinhViens.size()){
-            dsSinhViens.remove(vitriSinhVien);
+    private void xoaThongTin(int i) {
+        if (i >= 0 && i < dsSinhViens.size()) {
+            dsSinhViens.remove(i);
             adapter.notifyDataSetChanged();
         }
     }
@@ -160,14 +160,85 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            if(resultCode==RESULT_OK)
-            {
-                //cập nhật lại danh sách sinh viên sau khi thêm
-                dsSinhViens = (ArrayList<SinhVien>) data.getSerializableExtra("danhsach");
-                vitriSinhVien = data.getIntExtra("vitrisv", -1); //lấy vị trí cho chắc
+        //Request Code 1 tức là bật từ menu Edit trong main, ta sẽ lấy dữ liệu từ
+        //CreateOrEdit về và cập nhật lại dsSinhViens
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                //cập nhật lại danh sách sinh viên sau khi thêm hoặc sửa
+                String ma = "", ten = "", email = "", ngaysinh = "", malop = "", tenlop = "";
+                Boolean phai;
+                ten = data.getStringExtra("ten");
+                ma = data.getStringExtra("ma");
+                email = data.getStringExtra("email");
+                ngaysinh = data.getStringExtra("ngaysinh");
+                phai = data.getBooleanExtra("phai", true);
+                malop = data.getStringExtra("malop");
+                tenlop = data.getStringExtra("tenlop");
+                vitriSinhVien = data.getIntExtra("vitrisinhvien",-1);  //lấy vị trí sinh viên từ CreateOrEdit về
+                Lop lop = new Lop(malop, tenlop);
+                SinhVien sv = new SinhVien(ma, ten, email, ngaysinh, phai, lop);
+                //Nếu vị trí thoả điều kiện, thì tức là đang sửa thông tin
+                if (vitriSinhVien >= 0 && vitriSinhVien < dsSinhViens.size()) {
+                    Toast.makeText(this, "Đã thoả điều kiện", Toast.LENGTH_SHORT);
+                    dsSinhViens.get(vitriSinhVien).setMa(ma);
+                    dsSinhViens.get(vitriSinhVien).setTen(ten);
+                    dsSinhViens.get(vitriSinhVien).setEmail(email);
+                    dsSinhViens.get(vitriSinhVien).setNgaysinh(ngaysinh);
+                    dsSinhViens.get(vitriSinhVien).setPhai(phai);
+                    dsSinhViens.get(vitriSinhVien).setLop(lop);
+                    adapter.notifyDataSetChanged();
+                }
+                else{   //nếu vị trí không thoả điều kiện, tức là ta đang thêm mới sinh viên
+                    dsSinhViens.add(sv);
+                    adapter.notifyDataSetChanged();
+                }
                 adapter.notifyDataSetChanged();
             }
         }
+        //Request code = 2 tức là ta Edit từ ViewChiTiet
+        //ViewChiTiet sẽ truyền code 2, và truyền thông tin sinh viên về lại qua main để cập nhật
+        else if (requestCode == 2){
+            if(resultCode ==RESULT_OK){
+                String ma, ten, email, ngaysinh, malop, tenlop;
+                Boolean phai;
+                ten = data.getStringExtra("ten");
+                ma = data.getStringExtra("ma");
+                email = data.getStringExtra("email");
+                ngaysinh = data.getStringExtra("ngaysinh");
+                phai = data.getBooleanExtra("phai", true);
+                malop = data.getStringExtra("malop");
+                tenlop = data.getStringExtra("tenlop");
+                vitriSinhVien = data.getIntExtra("vitrisinhvien",-1);
+                Lop lop = new Lop(malop, tenlop);
+                SinhVien sv = new SinhVien(ma, ten, email, ngaysinh, phai, lop);
+
+                int vitrixoa;
+                vitrixoa = data.getIntExtra("vitrixoa",-1);
+                Boolean coxoa;
+                coxoa = data.getBooleanExtra("coxoa", false);
+
+                if (vitriSinhVien >= 0 && vitriSinhVien < dsSinhViens.size()) {
+                    Toast.makeText(this, "Đã thoả điều kiện", Toast.LENGTH_SHORT);
+                    dsSinhViens.get(vitriSinhVien).setMa(ma);
+                    dsSinhViens.get(vitriSinhVien).setTen(ten);
+                    dsSinhViens.get(vitriSinhVien).setEmail(email);
+                    dsSinhViens.get(vitriSinhVien).setNgaysinh(ngaysinh);
+                    dsSinhViens.get(vitriSinhVien).setPhai(phai);
+                    dsSinhViens.get(vitriSinhVien).setLop(lop);
+                    adapter.notifyDataSetChanged();
+                }
+                if(coxoa)
+                    xoaThongTin(vitrixoa);
+                adapter.notifyDataSetChanged();
+            }
+
+        }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.notifyDataSetChanged();
+    }
+
 }

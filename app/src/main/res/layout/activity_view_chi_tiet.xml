@@ -115,7 +115,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/DOB"
-
             android:layout_weight="0.4"
             android:textStyle="bold"
             android:textSize="18dp"/>
@@ -160,16 +159,16 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create"
-        android:id="@+id/btnCreateDetail"
+        android:text="@string/edit"
+        android:id="@+id/btnEditDetail"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/edit"
-        android:id="@+id/btnEditDetail"
+        android:text="@string/remove"
+        android:id="@+id/btnRemoveDetail"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"/>
 

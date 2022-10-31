@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -29,20 +30,23 @@ public class CreateOrEditActivity extends AppCompatActivity {
 
     MaterialButton btnCommit, btnBack;
 
-    public int viTriSV =-1;
+    String ma = "", ten = "", email = "", ngaysinh = "", malop = "", tenlop = "";
+    boolean phai = true;
+
+    public int viTriSV = -1;
     ArrayList<SinhVien> dsSV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_edit);
-        dsSV = new ArrayList<>();
+
         addControls();
         addEvents();
     }
 
     private void addEvents() {
-        Calendar myCalendar= Calendar.getInstance(); //đầu tiên, khởi tạo một calendar để lưu lại ngày tháng năm
+        Calendar myCalendar = Calendar.getInstance(); //đầu tiên, khởi tạo một calendar để lưu lại ngày tháng năm
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {  //khởi tạo một DatePicker để hiện ra cho chọn ngày tháng năm
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -50,19 +54,20 @@ public class CreateOrEditActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.MONTH, month);  //điền tháng
                 myCalendar.set(Calendar.DAY_OF_MONTH, day);  //chọn ngày
                 //rồi điền tất cả vào text view ngày sinh
-                tvDOBCreate.setText(myCalendar.get(Calendar.DAY_OF_MONTH) + "/" +myCalendar.get(Calendar.MONTH)+"/"+myCalendar.get(Calendar.YEAR));
+                tvDOBCreate.setText(myCalendar.get(Calendar.DAY_OF_MONTH) + "/" + myCalendar.get(Calendar.MONTH) + "/" + myCalendar.get(Calendar.YEAR));
             }
         };
         tvDOBCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(CreateOrEditActivity.this,date,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(CreateOrEditActivity.this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+                //btnCommit.performClick();
             }
         });
 
@@ -76,48 +81,48 @@ public class CreateOrEditActivity extends AppCompatActivity {
         });
     }
 
-    private void getSVInfo() { //nếu vị trí sinh viên nằm trong mảng dsSV tức là đã chọn sinh viên
-        if(viTriSV>=0 && viTriSV <dsSV.size()){
+    public void getSVInfo() { //nếu vị trí sinh viên nằm trong mảng dsSV tức là đã chọn sinh viên
+        if (viTriSV >= 0 && viTriSV < dsSV.size()) {
             etName.setText(dsSV.get(viTriSV).getTen().toString());
             etID.setText(dsSV.get(viTriSV).getMa().toString());
             etEmail.setText(dsSV.get(viTriSV).getMa().toString());
             tvDOBCreate.setText(dsSV.get(viTriSV).getNgaysinh().toString());
-            if(dsSV.get(viTriSV).getPhai()){
+            if (dsSV.get(viTriSV).getPhai()) {
                 radNam.setChecked(true);
-            }else radNu.setChecked(true);
+            } else radNu.setChecked(true);
             etClassID.setText(dsSV.get(viTriSV).getLop().getMalop().toString());
             etClassName.setText(dsSV.get(viTriSV).getLop().getTenlop().toString());
         }
     }
 
     private void xuLyThemSua() {
-        if(viTriSV>=0 && viTriSV <dsSV.size()){
-            getSVInfo();
-        } else{
-            String ma, ten, email, ngaysinh, malop, tenlop;
-            boolean phai;
-            ma = etID.getText().toString();
-            ten = etName.getText().toString();
-            email = etEmail.getText().toString();
-            ngaysinh = tvDOBCreate.getText().toString();
-            malop=etClassID.getText().toString();
-            tenlop = etClassName.getText().toString();
-            if(radNam.isChecked())
-                phai = true;
-            else
-                phai = false;
-            Lop lop = new Lop(malop, tenlop);
-            SinhVien sinhVien = new SinhVien(ma, ten, email, ngaysinh, phai, lop);
+        ma = etID.getText().toString();
+        ten = etName.getText().toString();
+        email = etEmail.getText().toString();
+        ngaysinh = tvDOBCreate.getText().toString();
+        malop = etClassID.getText().toString();
+        tenlop = etClassName.getText().toString();
+        if (radNam.isChecked())
+            phai = true;
+        else
+            phai = false;
 
-            dsSV.add(sinhVien);
+        Intent intent2 = new Intent();
+        intent2.putExtra("ten", ten);
+        intent2.putExtra("ma", ma);
+        intent2.putExtra("email", email);
+        intent2.putExtra("ngaysinh", ngaysinh);
+        intent2.putExtra("phai", phai);
+        intent2.putExtra("malop", malop);
+        intent2.putExtra("tenlop", tenlop);
 
-//            Intent intent = new Intent();
-//            intent.putExtra("danhsach", dsSV); //đưa dsSV dưới dạng serializable với tên danhsach
-//            intent.putExtra("vitrisv", viTriSV); //truyền vị trí sinh viên qua bên View Chi Tiết
-//            setResult(RESULT_OK, intent);
-//            finish();
-        }
+        intent2.putExtra("vitrisinhvien", viTriSV);
+
+        setResult(RESULT_OK, intent2);
+        //startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
     }
+
 
     private void addControls() {
         etName = findViewById(R.id.etName);
@@ -138,7 +143,39 @@ public class CreateOrEditActivity extends AppCompatActivity {
         dsSV = new ArrayList<>();
         dsSV = (ArrayList<SinhVien>) intent.getSerializableExtra("danhsach");     //lấy serializable với tên danhsach từ bên kia gửi qua
 
-        viTriSV = intent.getIntExtra("vitrisv",-1); //để lấy vị trí sinh viên trong array list bên kia gửi qua
+        viTriSV = intent.getIntExtra("vitrisv", -1); //để lấy vị trí sinh viên trong array list bên kia gửi qua
+    }
+
+    @Override
+    public void onBackPressed() {
+        getSVInfo();
+
+        ma = etID.getText().toString();
+        ten = etName.getText().toString();
+        email = etEmail.getText().toString();
+        ngaysinh = tvDOBCreate.getText().toString();
+        malop = etClassID.getText().toString();
+        tenlop = etClassName.getText().toString();
+        if (radNam.isChecked())
+            phai = true;
+        else
+            phai = false;
+
+        Intent intenttra = new Intent();
+        intenttra.putExtra("ten", ten);
+        intenttra.putExtra("ma", ma);
+        intenttra.putExtra("email", email);
+        intenttra.putExtra("ngaysinh", ngaysinh);
+        intenttra.putExtra("phai", phai);
+        intenttra.putExtra("malop", malop);
+        intenttra.putExtra("tenlop", tenlop);
+
+
+        intenttra.putExtra("vitrisinhvien", viTriSV);
+        setResult(RESULT_OK, intenttra);
+        finish();
+
+        super.onBackPressed();
 
     }
 }
