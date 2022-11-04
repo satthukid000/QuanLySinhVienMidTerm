@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     int vitriSinhVien = -1;
 
+    SinhVien chon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 vitriSinhVien = i;
+                chon = adapter.getItem(i);
                 xemChiTietThongTin();
             }
         });
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 vitriSinhVien = i;
+                chon = adapter.getItem(i);
                 showPopup(view);
                 return true;
             }
@@ -98,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         lvSinhVien.setAdapter(adapter);
 
         btnAdd = findViewById(R.id.btnAdd);
+        chon = null;
 
     }
 
@@ -110,20 +115,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void xemChiTietThongTin() {
-        Intent intent = new Intent(MainActivity.this, ViewChiTietActivity.class);
-        intent.putExtra("vitrisv", vitriSinhVien); //truyền vị trí sinh viên qua bên View Chi Tiết
-        //Bundle args = new Bundle(); //dùng cái này để chứa nguyên cái dsSinhViens để quăng qua bên view chi tiết
-        intent.putExtra("danhsach", dsSinhViens); //đưa dsSinhViens dưới dạng serializable với tên danhsach
-        //intent.putExtra("Bundle", args);    //truyền args vào view chi tiết với tên Bundle
+        //new code here
+        Intent intent = new Intent(getApplicationContext(), ViewChiTietActivity.class);
+        intent.putExtra("vitrisv", vitriSinhVien);
+        intent.putExtra("CHON", chon); //đưa sinh viên đã chọn sang bên kia
         startActivityForResult(intent, 2);
     }
 
     public void chinhSuaChiTietThongTin() {
+        //code mới
         Intent intent = new Intent(getApplicationContext(), CreateOrEditActivity.class);
-        intent.putExtra("vitrisv", vitriSinhVien); //truyền vị trí sinh viên qua bên View Thêm và chỉnh sửa
-        intent.putExtra("danhsach", dsSinhViens); //đưa dsSinhViens dưới dạng serializable với tên danhsach
-        startActivityForResult(intent,1);
+        intent.putExtra("vitrisv", vitriSinhVien);
+        intent.putExtra("CHON", chon); //đưa sinh viên đã chọn sang bên kia
+        startActivityForResult(intent, 1);
     }
+
     private void openAboutMe() {
         Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
         startActivity(intent);
@@ -137,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.mnuAbout:
                 openAboutMe();
                 break;
@@ -188,75 +194,56 @@ public class MainActivity extends AppCompatActivity {
         //CreateOrEdit về và cập nhật lại dsSinhViens
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                //cập nhật lại danh sách sinh viên sau khi thêm hoặc sửa
-                String ma = "", ten = "", email = "", ngaysinh = "", malop = "", tenlop = "";
-                Boolean phai;
-                ten = data.getStringExtra("ten");
-                ma = data.getStringExtra("ma");
-                email = data.getStringExtra("email");
-                ngaysinh = data.getStringExtra("ngaysinh");
-                phai = data.getBooleanExtra("phai", true);
-                malop = data.getStringExtra("malop");
-                tenlop = data.getStringExtra("tenlop");
-                vitriSinhVien = data.getIntExtra("vitrisinhvien",-1);  //lấy vị trí sinh viên từ CreateOrEdit về
-                Lop lop = new Lop(malop, tenlop);
-                SinhVien sv = new SinhVien(ma, ten, email, ngaysinh, phai, lop);
-                //Nếu vị trí thoả điều kiện, thì tức là đang sửa thông tin
-                if (vitriSinhVien >= 0 && vitriSinhVien < dsSinhViens.size()) {
-                    Toast.makeText(this, "Đã thoả điều kiện", Toast.LENGTH_SHORT);
-                    dsSinhViens.get(vitriSinhVien).setMa(ma);
-                    dsSinhViens.get(vitriSinhVien).setTen(ten);
-                    dsSinhViens.get(vitriSinhVien).setEmail(email);
-                    dsSinhViens.get(vitriSinhVien).setNgaysinh(ngaysinh);
-                    dsSinhViens.get(vitriSinhVien).setPhai(phai);
-                    dsSinhViens.get(vitriSinhVien).setLop(lop);
-                    adapter.notifyDataSetChanged();
-                }
-                else{   //nếu vị trí không thoả điều kiện, tức là ta đang thêm mới sinh viên
-                    dsSinhViens.add(sv);
+                //code mới
+                if (data.hasExtra("TRA")) {
+                    SinhVien tra = (SinhVien) data.getSerializableExtra("TRA");
+                    if (chon == null) {
+                        adapter.add(tra);
+                    } else {
+                        chon.setTen(tra.getTen());
+                        chon.setMa(tra.getMa());
+                        chon.setEmail(tra.getEmail());
+                        chon.setNgaysinh(tra.getNgaysinh());
+                        chon.setPhai(tra.getPhai());
+                        chon.setLop(tra.getLop());
+                    }
                     adapter.notifyDataSetChanged();
                 }
                 adapter.notifyDataSetChanged();
             }
         }
+
         //Request code = 2 tức là ta Edit từ ViewChiTiet
         //ViewChiTiet sẽ truyền code 2, và truyền thông tin sinh viên về lại qua main để cập nhật
-        else if (requestCode == 2){
-            if(resultCode ==RESULT_OK){
-                String ma, ten, email, ngaysinh, malop, tenlop;
-                Boolean phai;
-                ten = data.getStringExtra("ten");
-                ma = data.getStringExtra("ma");
-                email = data.getStringExtra("email");
-                ngaysinh = data.getStringExtra("ngaysinh");
-                phai = data.getBooleanExtra("phai", true);
-                malop = data.getStringExtra("malop");
-                tenlop = data.getStringExtra("tenlop");
-                vitriSinhVien = data.getIntExtra("vitrisinhvien",-1);
-                Lop lop = new Lop(malop, tenlop);
-                SinhVien sv = new SinhVien(ma, ten, email, ngaysinh, phai, lop);
-
-                int vitrixoa;
-                vitrixoa = data.getIntExtra("vitrixoa",-1);
-                Boolean coxoa;
-                coxoa = data.getBooleanExtra("coxoa", false);
-
-                if (vitriSinhVien >= 0 && vitriSinhVien < dsSinhViens.size()) {
-                    Toast.makeText(this, "Đã thoả điều kiện", Toast.LENGTH_SHORT);
-                    dsSinhViens.get(vitriSinhVien).setMa(ma);
-                    dsSinhViens.get(vitriSinhVien).setTen(ten);
-                    dsSinhViens.get(vitriSinhVien).setEmail(email);
-                    dsSinhViens.get(vitriSinhVien).setNgaysinh(ngaysinh);
-                    dsSinhViens.get(vitriSinhVien).setPhai(phai);
-                    dsSinhViens.get(vitriSinhVien).setLop(lop);
+        else if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+//code mới
+                if (data.hasExtra("TRA2")) {
+                    SinhVien tra = (SinhVien) data.getSerializableExtra("TRA2");
+                    if (chon == null) {
+                        adapter.add(tra);
+                    } else {
+                        chon.setTen(tra.getTen());
+                        chon.setMa(tra.getMa());
+                        chon.setEmail(tra.getEmail());
+                        chon.setNgaysinh(tra.getNgaysinh());
+                        chon.setPhai(tra.getPhai());
+                        chon.setLop(tra.getLop());
+                    }
                     adapter.notifyDataSetChanged();
                 }
-                if(coxoa)
+
+                adapter.notifyDataSetChanged();
+                int vitrixoa;
+                vitrixoa = data.getIntExtra("vitrixoa", -1);
+                Boolean coxoa;
+                coxoa = data.getBooleanExtra("coxoa", false);
+                if (coxoa)
                     xoaThongTin(vitrixoa);
                 adapter.notifyDataSetChanged();
             }
-
         }
+        chon = null;
     }
 
     @Override

@@ -37,6 +37,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
     boolean phai = true;
 
     public int viTriSV = -1;
+    public SinhVien chon;
     ArrayList<SinhVien> dsSV;
 
     @Override
@@ -45,6 +46,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_or_edit);
 
         addControls();
+        getSVInfo();
         addEvents();
     }
 
@@ -85,16 +87,21 @@ public class CreateOrEditActivity extends AppCompatActivity {
     }
 
     public void getSVInfo() { //nếu vị trí sinh viên nằm trong mảng dsSV tức là đã chọn sinh viên
-        if (viTriSV >= 0 && viTriSV < dsSV.size()) {
-            etName.setText(dsSV.get(viTriSV).getTen().toString());
-            etID.setText(dsSV.get(viTriSV).getMa().toString());
-            etEmail.setText(dsSV.get(viTriSV).getMa().toString());
-            tvDOBCreate.setText(dsSV.get(viTriSV).getNgaysinh().toString());
-            if (dsSV.get(viTriSV).getPhai()) {
+
+        Intent intent = getIntent();
+        viTriSV = intent.getIntExtra("vitrisv",-1);
+        if(intent.hasExtra("CHON")){
+            chon = (SinhVien) intent.getSerializableExtra("CHON");
+            etName.setText(chon.getTen());
+            etID.setText(chon.getMa());
+            etEmail.setText(chon.getEmail());
+            tvDOBCreate.setText(chon.getNgaysinh());
+            if(chon.getPhai())
                 radNam.setChecked(true);
-            } else radNu.setChecked(true);
-            etClassID.setText(dsSV.get(viTriSV).getLop().getMalop().toString());
-            etClassName.setText(dsSV.get(viTriSV).getLop().getTenlop().toString());
+            else
+                radNu.setChecked(true);
+            etClassID.setText(chon.getLop().getMalop());
+            etClassName.setText(chon.getLop().getTenlop());
         }
     }
 
@@ -111,18 +118,20 @@ public class CreateOrEditActivity extends AppCompatActivity {
             phai = false;
 
         Intent intent2 = new Intent();
-        intent2.putExtra("ten", ten);
-        intent2.putExtra("ma", ma);
-        intent2.putExtra("email", email);
-        intent2.putExtra("ngaysinh", ngaysinh);
-        intent2.putExtra("phai", phai);
-        intent2.putExtra("malop", malop);
-        intent2.putExtra("tenlop", tenlop);
-
-        intent2.putExtra("vitrisinhvien", viTriSV);
+        Lop lop = new Lop(malop, tenlop);
+        chon = new SinhVien(ma, ten, email, ngaysinh, phai, lop);
+        intent2.putExtra("TRA", chon); //trả lại học sinh thêm vào
+//        intent2.putExtra("ten", ten);
+//        intent2.putExtra("ma", ma);
+//        intent2.putExtra("email", email);
+//        intent2.putExtra("ngaysinh", ngaysinh);
+//        intent2.putExtra("phai", phai);
+//        intent2.putExtra("malop", malop);
+//        intent2.putExtra("tenlop", tenlop);
+//
+//        intent2.putExtra("vitrisinhvien", viTriSV);
 
         setResult(RESULT_OK, intent2);
-        //startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
 
@@ -147,6 +156,8 @@ public class CreateOrEditActivity extends AppCompatActivity {
         dsSV = (ArrayList<SinhVien>) intent.getSerializableExtra("danhsach");     //lấy serializable với tên danhsach từ bên kia gửi qua
 
         viTriSV = intent.getIntExtra("vitrisv", -1); //để lấy vị trí sinh viên trong array list bên kia gửi qua
+
+        chon = new SinhVien();
     }
 
     @Override
