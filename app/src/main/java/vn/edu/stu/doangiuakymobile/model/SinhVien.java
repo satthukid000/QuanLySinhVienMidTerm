@@ -1,5 +1,6 @@
 package vn.edu.stu.doangiuakymobile.model;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 
 import java.io.Serializable;
@@ -11,13 +12,13 @@ public class SinhVien implements Serializable {
     String email;
     String ngaysinh;
     Boolean phai;
-    Image avatar;
+    Bitmap avatar;
     Lop lop;
 
     public SinhVien() {
     }
 
-    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Image avatar) {
+    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Bitmap avatar) {
         this.ma = ma;
         this.ten = ten;
         this.email = email;
@@ -34,7 +35,7 @@ public class SinhVien implements Serializable {
         this.phai = phai;
     }
 
-    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Image avatar, Lop lop) {
+    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Lop lop, Bitmap avatar) {
         this.ma = ma;
         this.ten = ten;
         this.email = email;
@@ -93,11 +94,11 @@ public class SinhVien implements Serializable {
         this.phai = phai;
     }
 
-    public Image getAvatar() {
+    public Bitmap getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Image avatar) {
+    public void setAvatar(Bitmap avatar) {
         this.avatar = avatar;
     }
 

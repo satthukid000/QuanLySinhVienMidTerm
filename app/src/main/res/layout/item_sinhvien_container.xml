@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_marginBottom="5dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -17,6 +18,12 @@
             android:layout_gravity="center"
             android:background="@drawable/border"
             android:layout_weight="0.2">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ivAvatar"
+                android:src="@drawable/default_ava"/>
 
         </LinearLayout>
 
@@ -92,5 +99,13 @@
         </LinearLayout>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="5dp"/>
+
+
 
 </LinearLayout>

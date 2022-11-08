@@ -5,10 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,9 @@ public class ViewChiTietActivity extends AppCompatActivity {
 
     TextView tvNameDetail, tvIDDetail, tvClassDetail, tvEmailDetai, tvDOBDetail, tvGenderDetail;
     MaterialButton btnEditDetail, btnBack, btnRemoveDetail;
+
+    ImageView imageViewAvatar;
+    Bitmap bitmap;
 
     SinhVien chon;
 
@@ -59,6 +64,7 @@ public class ViewChiTietActivity extends AppCompatActivity {
                     tvGenderDetail.setText("Nam");
                 else
                     tvGenderDetail.setText("Nữ");
+                imageViewAvatar.setImageBitmap(chon.getAvatar());
             }
         }
     }
@@ -91,6 +97,7 @@ public class ViewChiTietActivity extends AppCompatActivity {
         tvEmailDetai.setText("");
         tvDOBDetail.setText("");
         tvGenderDetail.setText("");
+
         Intent intentxoa = new Intent();
         intentxoa.putExtra("coxoa", true);
         intentxoa.putExtra("vitrixoa", vitriSV);
@@ -124,6 +131,9 @@ public class ViewChiTietActivity extends AppCompatActivity {
         btnRemoveDetail = findViewById(R.id.btnRemoveDetail);
 
         chon = null;
+
+        imageViewAvatar = findViewById(R.id.imageViewAvatar);
+        bitmap = null;
     }
 
     //Sau khi CreateOrEdit chỉnh xong thì sẽ truyền thông tin của Sinh Viên về lại đây
@@ -145,6 +155,7 @@ public class ViewChiTietActivity extends AppCompatActivity {
                         tvGenderDetail.setText("Nam");
                     else
                         tvGenderDetail.setText("Nữ");
+                    imageViewAvatar.setImageBitmap(tra.getAvatar());
                 }
             }
         }

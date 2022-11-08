@@ -50,4 +50,16 @@
     <string name="edit">Chỉnh sửa</string>
     <string name="remove">Xoá</string>
     <string name="exit">Thoát</string>
+
+    <string name="create">Tạo</string>
+    <string name="view">Xem</string>
+    <string name="commit">Lưu</string>
+    <string name="male">Nam</string>
+    <string name="female">Nữ</string>
+    <string name="class_id">Mã Lớp</string>
+    <string name="class_name">Tên Lớp</string>
+    <string name="add_image">Thêm Hình</string>
+
+    <string name="mapbox_access_token">pk.eyJ1Ijoic2F0dGh1a2lkMDAwIiwiYSI6ImNsYTJjdGd1aDBnMXUzdm1vYXZ4aXdseHoifQ.5TACupCkhNiubzB0VtLm0w</string>
+
 </resources>

@@ -57,5 +57,12 @@
     <string name="female">Female</string>
     <string name="class_id">Class ID</string>
     <string name="class_name">Class Name</string>
+    <string name="add_image">Add Image</string>
+
+
+    <!--google map-->
+    <string name="mapbox_access_token">pk.eyJ1Ijoic2F0dGh1a2lkMDAwIiwiYSI6ImNsYTJjdGd1aDBnMXUzdm1vYXZ4aXdseHoifQ.5TACupCkhNiubzB0VtLm0w</string>
+
+
 
 </resources>

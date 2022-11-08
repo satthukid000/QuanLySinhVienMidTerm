@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addSinhVienExample() {
+        Bitmap bitmapAva1 = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ava_ex1);
+        Bitmap bitmapAva2 = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ava_ex2);
+        Bitmap bitmapAva3 = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ava_ex3);
+
+
         Lop lop1 = new Lop("Lớp 1", "Công nghệ");
         Lop lop2 = new Lop("Lớp 2", "Kiến trúc");
         Lop lop3 = new Lop("Lớp 3", "Kỹ Sư");
@@ -206,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
                         chon.setNgaysinh(tra.getNgaysinh());
                         chon.setPhai(tra.getPhai());
                         chon.setLop(tra.getLop());
+                        chon.setAvatar(tra.getAvatar());
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -229,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         chon.setNgaysinh(tra.getNgaysinh());
                         chon.setPhai(tra.getPhai());
                         chon.setLop(tra.getLop());
+                        chon.setAvatar(tra.getAvatar());
                     }
                     adapter.notifyDataSetChanged();
                 }

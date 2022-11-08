@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,12 +42,15 @@ public class SinhVienAdapter extends ArrayAdapter<SinhVien> {
         TextView tvMaSV = item.findViewById(R.id.tvMaSV);
         TextView tvTenSV = item.findViewById(R.id.tvTenSV);
         TextView tvLopSV = item.findViewById(R.id.tvLopSV);
+        ImageView ivAvatar = item.findViewById(R.id.ivAvatar);
 
         //lệnh vẽ liên tục
         SinhVien sv = this.objects.get(position);
         tvMaSV.setText(sv.getMa().toString());
         tvTenSV.setText(sv.getTen().toString());
         tvLopSV.setText(sv.getLop().toString());
+        if(sv.getAvatar()!=null)
+            ivAvatar.setImageBitmap(sv.getAvatar());
 
 
         return item;

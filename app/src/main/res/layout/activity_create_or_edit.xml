@@ -4,186 +4,213 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateOrEditActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".CreateOrEditActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="140dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"/>
-        <EditText
+
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:inputType="textPersonName"
             android:layout_gravity="center"
-            android:hint="@string/Full_Name"
-            android:textStyle="bold"
-            android:id="@+id/etName"
-            android:textSize="24dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/ID"
-            android:layout_weight="0.4"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/ID"
-            android:id="@+id/etID"
-            android:textAlignment="textStart"
-            android:maxLines="1"
-            android:layout_weight="0.6"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Email"
-
-            android:layout_weight="0.4"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="email"
-            android:id="@+id/etEmail"
-            android:inputType="textEmailAddress"
-            android:textAlignment="textStart"
-            android:layout_weight="0.6"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/DOB"
-
-            android:layout_weight="0.4"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="dd/mm/yyyy"
-            android:id="@+id/tvDOBCreate"
-            android:textAlignment="textStart"
-            android:layout_weight="0.6"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="15dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/gender"
-            android:layout_gravity="center"
-            android:layout_weight="0.4"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
-
-        <RadioGroup
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:id="@+id/radioGroupGender"
-            android:orientation="horizontal">
-            <RadioButton
+            android:id="@+id/frameLayoutImagePicker">
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radNam"
-                android:text="@string/male"/>
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:id="@+id/tvAddImage"
+                android:text="@string/add_image"
+                />
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="140dp"
+                android:id="@+id/imageViewAvatar"
+                android:layout_marginTop="20dp"
+                android:background="@color/black_overlay"/>
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:hint="@string/Full_Name"
+            android:inputType="textPersonName"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/ID"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:hint="@string/ID"
+            android:maxLines="1"
+            android:textAlignment="textStart"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+
+            android:text="Email"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:hint="email"
+            android:inputType="textEmailAddress"
+            android:textAlignment="textStart"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+
+            android:text="@string/DOB"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDOBCreate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:hint="dd/mm/yyyy"
+            android:textAlignment="textStart"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.4"
+            android:text="@string/gender"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupGender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:orientation="horizontal">
+
             <RadioButton
+                android:id="@+id/radNam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male" />
+
+            <RadioButton
+                android:id="@+id/radNu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:id="@+id/radNu"
-                android:text="@string/female"/>
+                android:text="@string/female" />
         </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/class_id"
             android:layout_weight="0.4"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:text="@string/class_id"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/etClassID"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/class_id"
-            android:id="@+id/etClassID"
-            android:textAlignment="textStart"
-            android:inputType="textPersonName"
             android:layout_weight="0.6"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:hint="@string/class_id"
+            android:inputType="textPersonName"
+            android:textAlignment="textStart"
+            android:textSize="18dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/class_name"
             android:layout_weight="0.4"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:text="@string/class_name"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etClassName"
@@ -191,26 +218,26 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
             android:hint="@string/class_name"
-            android:textAlignment="textStart"
             android:inputType="textPersonName"
+            android:textAlignment="textStart"
             android:textSize="18dp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCommit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/commit"
-        android:id="@+id/btnCommit"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:text="@string/commit" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/go_back"
-        android:id="@+id/btnBack"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:text="@string/go_back" />
 
 </LinearLayout>

@@ -4,132 +4,142 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutMeActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".AboutMeActivity">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBack"
+            android:layout_width="56dp"
+            android:layout_height="41dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:textColor="@color/cardview_dark_background"
+            app:icon="@drawable/left_arrow"
+            app:iconSize="14dp"
+            app:iconTint="@color/cardview_dark_background"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnBack"
-                android:layout_width="56dp"
-                android:layout_height="41dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:textColor="@color/cardview_dark_background"
-                app:icon="@drawable/left_arrow"
-                app:iconSize="14dp"
-                app:iconTint="@color/cardview_dark_background"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/About_Me"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:gravity="center_horizontal"
+            android:text="@string/About_Me"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@android:color/darker_gray" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView">
+        android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
+                android:id="@+id/linearlayoutAvatar"
                 android:layout_width="match_parent"
                 android:layout_height="90pt"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:id="@+id/linearlayoutAvatar"
-                android:clickable="true">
+                android:clickable="true"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thanhduc_round_avatar"/>
+                    android:src="@drawable/thanhduc_round_avatar" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nguyễn Văn Thanh Đức"
-                    android:textStyle="bold"
                     android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="Nguyễn Văn Thanh Đức"
                     android:textSize="10pt"
-                    android:gravity="center"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:weightSum="1"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="MSSV: "
-                    android:layout_weight="0.4"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="MSSV: "
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:text="DH51905495"
                     android:textAlignment="textStart"
-                    android:layout_weight="0.6"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:weightSum="1"
-                android:layout_marginTop="10dp">
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/Class"
                     android:layout_weight="0.4"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+                    android:text="@string/Class"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:text="D19_TH09"
                     android:textAlignment="textStart"
-                    android:layout_weight="0.6"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
                 android:clickable="true"
-                android:weightSum="1"
-                android:layout_marginTop="10dp">
+                android:orientation="horizontal"
+                android:weightSum="1">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -137,40 +147,56 @@
                     android:text="Email"
                     android:textSize="18dp"
                     android:textStyle="bold" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="ducducthanh2305@gmail.com"
-                    android:gravity="start"
-                    android:layout_weight="0.6"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:weightSum="1"
-                android:id="@+id/linearLayoutPhone"
-                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/PhoneNum"
-                    android:layout_weight="0.4"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+                    android:layout_weight="0.6"
+                    android:gravity="start"
+                    android:text="ducducthanh2305@gmail.com"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="0981545702"
+                    android:layout_weight="0.4"
+                    android:text="@string/PhoneNum"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tvPhoneNum"
-                    android:textAlignment="textStart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+                    android:text="0981545702"
+                    android:textAlignment="textStart"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="10dp">
+
+                <com.mapbox.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
             </LinearLayout>
 
 
