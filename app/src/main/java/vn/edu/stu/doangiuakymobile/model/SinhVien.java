@@ -12,20 +12,40 @@ public class SinhVien implements Serializable {
     String email;
     String ngaysinh;
     Boolean phai;
-    Bitmap avatar;
+    //Bitmap avatar; //vì không thể truyền kiểu bitmap qua serializable nên phải dùng kiểu dưới
+    String avatarEncodedStr; //cái này dùng để mã hoá bitmap lại về chuỗi string
+
+    public String getAvatarEncodedStr() {
+        return avatarEncodedStr;
+    }
+
+    public void setAvatarEncodedStr(String avatarEncodedStr) {
+        this.avatarEncodedStr = avatarEncodedStr;
+    }
+
     Lop lop;
 
     public SinhVien() {
     }
 
-    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Bitmap avatar) {
+//    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Bitmap avatar) {
+//        this.ma = ma;
+//        this.ten = ten;
+//        this.email = email;
+//        this.ngaysinh = ngaysinh;
+//        this.phai = phai;
+//        //this.avatar = avatar;
+//    }
+
+    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, String avatarEncodedStr) {
         this.ma = ma;
         this.ten = ten;
         this.email = email;
         this.ngaysinh = ngaysinh;
         this.phai = phai;
-        this.avatar = avatar;
+        this.avatarEncodedStr = avatarEncodedStr;
     }
+
 
     public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai) {
         this.ma = ma;
@@ -35,13 +55,22 @@ public class SinhVien implements Serializable {
         this.phai = phai;
     }
 
-    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Lop lop, Bitmap avatar) {
+//    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Lop lop, Bitmap avatar) {
+//        this.ma = ma;
+//        this.ten = ten;
+//        this.email = email;
+//        this.ngaysinh = ngaysinh;
+//        this.phai = phai;
+//        this.avatar = avatar;
+//        this.lop = lop;
+//    }
+    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Lop lop, String avatarEncodedStr) {
         this.ma = ma;
         this.ten = ten;
         this.email = email;
         this.ngaysinh = ngaysinh;
         this.phai = phai;
-        this.avatar = avatar;
+        this.avatarEncodedStr = avatarEncodedStr;
         this.lop = lop;
     }
 
@@ -94,13 +123,13 @@ public class SinhVien implements Serializable {
         this.phai = phai;
     }
 
-    public Bitmap getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Bitmap avatar) {
-        this.avatar = avatar;
-    }
+//    public Bitmap getAvatar() {
+//        return avatar;
+//    }
+//
+//    public void setAvatar(Bitmap avatar) {
+//        this.avatar = avatar;
+//    }
 
     public Lop getLop() {
         return lop;

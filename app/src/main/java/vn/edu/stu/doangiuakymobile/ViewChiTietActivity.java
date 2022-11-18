@@ -4,9 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,8 +49,6 @@ public class ViewChiTietActivity extends AppCompatActivity {
         addControls();
         getSinhVienBenKiaGuiTraVe();
         addEvents();
-
-
     }
 
     private void getSinhVienBenKiaGuiTraVe() {
@@ -60,11 +62,16 @@ public class ViewChiTietActivity extends AppCompatActivity {
                 tvIDDetail.setText(chon.getMa());
                 tvClassDetail.setText(chon.getLop().toString());
                 tvDOBDetail.setText(chon.getNgaysinh());
+                tvEmailDetai.setText(chon.getEmail());
                 if (chon.getPhai())
                     tvGenderDetail.setText("Nam");
                 else
                     tvGenderDetail.setText("Nữ");
-                imageViewAvatar.setImageBitmap(chon.getAvatar());
+                if(chon.getAvatarEncodedStr()!=null){
+                    byte[] bytes = Base64.decode(chon.getAvatarEncodedStr(),Base64.DEFAULT);  //decode string image để tạo lại ảnh đại diện người dùng và hiện lên
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    imageViewAvatar.setImageBitmap(bitmap);
+                }
             }
         }
     }
@@ -91,19 +98,36 @@ public class ViewChiTietActivity extends AppCompatActivity {
     }
 
     private void xoaChiTietThongTin() {
-        tvNameDetail.setText("");
-        tvIDDetail.setText("");
-        tvClassDetail.setText("");
-        tvEmailDetai.setText("");
-        tvDOBDetail.setText("");
-        tvGenderDetail.setText("");
+        AlertDialog.Builder builder = new AlertDialog.Builder(ViewChiTietActivity.this);
+        builder.setTitle(R.string.confirm_delete);
+        builder.setMessage(R.string.confirm_delete_sub);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                tvNameDetail.setText("");
+                tvIDDetail.setText("");
+                tvClassDetail.setText("");
+                tvEmailDetai.setText("");
+                tvDOBDetail.setText("");
+                tvGenderDetail.setText("");
 
-        Intent intentxoa = new Intent();
-        intentxoa.putExtra("coxoa", true);
-        intentxoa.putExtra("vitrixoa", vitriSV);
+                Intent intentxoa = new Intent();
+                intentxoa.putExtra("coxoa", true);
+                intentxoa.putExtra("vitrixoa", vitriSV);
 
-        setResult(RESULT_OK, intentxoa);
-        finish();
+                setResult(RESULT_OK, intentxoa);
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
 
@@ -151,11 +175,16 @@ public class ViewChiTietActivity extends AppCompatActivity {
                     tvIDDetail.setText(tra.getMa());
                     tvClassDetail.setText(tra.getLop().toString());
                     tvDOBDetail.setText(tra.getNgaysinh());
+                    tvEmailDetai.setText(tra.getEmail());
                     if (tra.getPhai())
                         tvGenderDetail.setText("Nam");
                     else
                         tvGenderDetail.setText("Nữ");
-                    imageViewAvatar.setImageBitmap(tra.getAvatar());
+                    if(tra.getAvatarEncodedStr()!=null){
+                        byte[] bytes = Base64.decode(tra.getAvatarEncodedStr(),Base64.DEFAULT);  //decode string image để tạo lại ảnh đại diện người dùng và hiện lên
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                        imageViewAvatar.setImageBitmap(bitmap);
+                    }
                 }
             }
         }

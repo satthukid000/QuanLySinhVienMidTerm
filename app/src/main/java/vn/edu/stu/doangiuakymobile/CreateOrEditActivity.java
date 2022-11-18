@@ -12,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -46,10 +49,10 @@ public class CreateOrEditActivity extends AppCompatActivity {
 
     Bitmap bitmap;
 
-    String ma = "", ten = "", email = "", ngaysinh = "", malop = "", tenlop = "";
+    String ma = "", ten = "", email = "", ngaysinh = "", malop = "", tenlop = "", encodedAva = "";
     boolean phai = true;
 
-    public int viTriSV = -1;
+    int viTriSV = -1;
     public SinhVien chon;
 
 
@@ -64,6 +67,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
+
         Calendar myCalendar = Calendar.getInstance(); //đầu tiên, khởi tạo một calendar để lưu lại ngày tháng năm
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {  //khởi tạo một DatePicker để hiện ra cho chọn ngày tháng năm
             @Override
@@ -88,13 +92,14 @@ public class CreateOrEditActivity extends AppCompatActivity {
                 //btnCommit.performClick();
             }
         });
-
+        radNam.setChecked(true);
         getSVInfo(); //hàm lấy thông tin sinh viên bỏ lên
 
         btnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xuLyThemSua();
+                if(checkValid())
+                    xuLyThemSua();
             }
         });
 
@@ -108,22 +113,77 @@ public class CreateOrEditActivity extends AppCompatActivity {
         });
     }
 
+    private boolean checkValid() {
+        String id = etID.getText().toString();
+        String name = etName.getText().toString();
+        String email = etEmail.getText().toString();
+        String dob = tvDOBCreate.getText().toString();
+        String classname = etClassName.getText().toString();
+        String classid = etClassID.getText().toString();
+
+        if(TextUtils.isEmpty(id)) {
+            Toast.makeText(this, "Please enter ID", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty(name)) {
+            Toast.makeText(this, "Please enter NAME", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Please enter EMAIL", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(isEmailValid(etEmail.getText().toString())!=true){
+            Toast.makeText(this, "Please enter valid Email", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty(dob)) {
+            Toast.makeText(this, "Please enter D.O.B", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty(encodedAva)){
+            Toast.makeText(this, "Please select IMAGE", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty(classname)){
+            Toast.makeText(this, "Please enter Class Name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(TextUtils.isEmpty(classid)){
+            Toast.makeText(this, "Please enter Class ID", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    boolean isEmailValid(CharSequence email) {  //kiểm tra email có hợp lệ hay không
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     public void getSVInfo() { //nếu vị trí sinh viên nằm trong mảng dsSV tức là đã chọn sinh viên
 
         Intent intent = getIntent();
-        viTriSV = intent.getIntExtra("vitrisv",-1);
-        if(intent.hasExtra("CHON")){
+        //viTriSV = intent.getIntExtra("vitrisv", -1);
+        if (intent.hasExtra("CHON")) {
             chon = (SinhVien) intent.getSerializableExtra("CHON");
-            etName.setText(chon.getTen());
-            etID.setText(chon.getMa());
-            etEmail.setText(chon.getEmail());
-            tvDOBCreate.setText(chon.getNgaysinh());
-            if(chon.getPhai())
-                radNam.setChecked(true);
-            else
-                radNu.setChecked(true);
-            etClassID.setText(chon.getLop().getMalop());
-            etClassName.setText(chon.getLop().getTenlop());
+            if (chon != null) {
+                etName.setText(chon.getTen());
+                etID.setText(chon.getMa());
+                etEmail.setText(chon.getEmail());
+                tvDOBCreate.setText(chon.getNgaysinh());
+                if (chon.getPhai())
+                    radNam.setChecked(true);
+                else
+                    radNu.setChecked(true);
+                etClassID.setText(chon.getLop().getMalop());
+                etClassName.setText(chon.getLop().getTenlop());
+                if (chon.getAvatarEncodedStr() != null) {
+                    encodedAva=chon.getAvatarEncodedStr();
+                    byte[] bytes = Base64.decode(chon.getAvatarEncodedStr(), Base64.DEFAULT);  //decode string image để tạo lại ảnh đại diện người dùng và hiện lên
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    imageView.setImageBitmap(bitmap);
+                }
+            }
         }
     }
 
@@ -138,14 +198,31 @@ public class CreateOrEditActivity extends AppCompatActivity {
             phai = true;
         else
             phai = false;
+//        if (encodedAva == null) {
+//            imageView.buildDrawingCache();
+//            Bitmap bitmapA = imageView.getDrawingCache();
+//            encodedAva = encodedImage(bitmapA);
+//        }
+
 
         Intent intent2 = new Intent();
         Lop lop = new Lop(malop, tenlop);
-        chon = new SinhVien(ma, ten, email, ngaysinh, phai, lop);
+        chon = new SinhVien(ma, ten, email, ngaysinh, phai, lop, encodedAva);
         intent2.putExtra("TRA", chon); //trả lại học sinh thêm vào
 
         setResult(RESULT_OK, intent2);
         finish();
+    }
+
+    //hàm dùng để mã hoá Bitmap về chuỗi string nhằm lưu trữ hình ảnh lại
+    public String encodedImage(Bitmap bitmap) {
+        int previewWidth = 200;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT); //trả về chuỗi string đã được mã hoá dựa trên thuật toán Bitmap
     }
 
 
@@ -156,7 +233,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
         etClassName = findViewById(R.id.etClassName);
         etEmail = findViewById(R.id.etEmail);
         tvDOBCreate = findViewById(R.id.tvDOBCreate);
-        imageView= findViewById(R.id.imageViewAvatar);
+        imageView = findViewById(R.id.imageViewAvatar);
         frameLayoutImagePicker = findViewById(R.id.frameLayoutImagePicker);
         tvAddImage = findViewById(R.id.tvAddImage);
 
@@ -167,10 +244,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
         btnCommit = findViewById(R.id.btnCommit);
         btnBack = findViewById(R.id.btnBack);
 
-        Intent intent = getIntent();
-        viTriSV = intent.getIntExtra("vitrisv", -1); //để lấy vị trí sinh viên trong array list bên kia gửi qua
-
-        chon = new SinhVien();
+        chon = null;
 
         bitmap = null;
     }
@@ -178,34 +252,13 @@ public class CreateOrEditActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         getSVInfo();
-
-        ma = etID.getText().toString();
-        ten = etName.getText().toString();
-        email = etEmail.getText().toString();
-        ngaysinh = tvDOBCreate.getText().toString();
-        malop = etClassID.getText().toString();
-        tenlop = etClassName.getText().toString();
-        if (radNam.isChecked())
-            phai = true;
-        else
-            phai = false;
-
-        Intent intenttra = new Intent();
-        intenttra.putExtra("ten", ten);
-        intenttra.putExtra("ma", ma);
-        intenttra.putExtra("email", email);
-        intenttra.putExtra("ngaysinh", ngaysinh);
-        intenttra.putExtra("phai", phai);
-        intenttra.putExtra("malop", malop);
-        intenttra.putExtra("tenlop", tenlop);
-
-
-        intenttra.putExtra("vitrisinhvien", viTriSV);
-        setResult(RESULT_OK, intenttra);
+//        Intent intenttra = new Intent();
+//        setResult(RESULT_OK, intenttra);
         finish();
 
         super.onBackPressed();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -214,7 +267,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.mnuAbout:
                 openAboutMe();
                 break;
@@ -240,6 +293,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(uriImage);
                             bitmap = BitmapFactory.decodeStream(inputStream);
+                            encodedAva = encodedImage(bitmap);
                             imageView.setImageBitmap(bitmap);
                             tvAddImage.setVisibility(View.GONE);
                         } catch (FileNotFoundException e) {

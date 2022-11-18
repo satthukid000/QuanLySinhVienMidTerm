@@ -14,9 +14,17 @@
         android:id="@+id/btnAdd"
         android:layout_gravity="center"/>
 
-    <ListView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lvSinhVien"/>
+        android:layout_height="match_parent"
+        android:id="@+id/frameFragment">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice"
+            android:listSelector="@color/black_overlay"
+            android:id="@+id/lvSinhVien"/>
+    </FrameLayout>
+
 
 </LinearLayout>

@@ -1,6 +1,9 @@
 package vn.edu.stu.doangiuakymobile.adapter;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +52,13 @@ public class SinhVienAdapter extends ArrayAdapter<SinhVien> {
         tvMaSV.setText(sv.getMa().toString());
         tvTenSV.setText(sv.getTen().toString());
         tvLopSV.setText(sv.getLop().toString());
-        if(sv.getAvatar()!=null)
-            ivAvatar.setImageBitmap(sv.getAvatar());
+
+
+        if(sv.getAvatarEncodedStr()!=null) {
+            byte[] bytes = Base64.decode(sv.getAvatarEncodedStr(),Base64.DEFAULT);  //decode string image để tạo lại ảnh đại diện người dùng và hiện lên
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            ivAvatar.setImageBitmap(bitmap);
+        }
 
 
         return item;

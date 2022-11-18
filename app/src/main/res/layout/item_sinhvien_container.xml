@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:weightSum="1"
         android:layout_marginBottom="5dp">
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
-                android:gravity="start"
+                android:gravity="center_vertical|center_horizontal"
                 android:layout_marginStart="5dp"
                 android:text="@string/ID"
                 android:textSize="15dp" />
@@ -48,7 +48,7 @@
                 android:textSize="15dp"
                 android:layout_weight="0.4"
                 android:layout_marginStart="5dp"
-                android:gravity="start"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="@string/name"/>
             <TextView
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:textSize="15dp"
                 android:layout_weight="0.3"
                 android:layout_marginStart="5dp"
-                android:gravity="start"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="@string/Class"/>
         </LinearLayout>
 
@@ -72,7 +72,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:textSize="18dp"
-
                 android:gravity="center_vertical|center_horizontal"
                 android:id="@+id/tvMaSV"
                 android:text="Mã"/>
@@ -83,7 +82,7 @@
                 android:layout_weight="0.4"
                 android:textAlignment="center"
                 android:id="@+id/tvTenSV"
-
+                android:gravity="center_vertical|center_horizontal"
                 android:textSize="18dp"
                 android:text="tên"/>
 
@@ -93,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:text="Lớp"
-
+                android:gravity="center_vertical|center_horizontal"
                 android:textAlignment="center"
                 android:textSize="18dp" />
         </LinearLayout>
