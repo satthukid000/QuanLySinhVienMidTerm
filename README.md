@@ -2,6 +2,8 @@
  Đồ Án Giữa Kỳ Mobile: Quản Lý Sinh Viên
 
  Quản Lý Sinh Viên là app open-source với chức năng chính là thêm, xoá, xem chi tiết và chỉnh sửa thông tin sinh viên dựa trên local class. GitHub repository hiện tại chỉ mới hỗ trợ Android.
+ 
+ Quản Lý Sinh Viên là app không dùng database. Chỉ dùng đơn thuần class để lưu trữ và sẽ biến mất khi tắt ứng dụng. Có một phiên bản khác có dùng database trong mục Release.
 
 ### Tính năng hiện tại
 - Xem chi tiết thông tin chi tiết sinh viên
