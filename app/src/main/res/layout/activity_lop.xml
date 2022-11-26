@@ -4,23 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".LopActivity"
     android:orientation="vertical">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:id="@+id/btnAdd"
+        android:text="@string/add_new_class"
+        android:id="@+id/btnAddClass"
         android:layout_gravity="center"/>
-
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Class"
-        android:id="@+id/btnAddClass"
+        android:text="@string/student_manager"
+        android:id="@+id/btnStudenManager"
         android:layout_gravity="center"/>
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -31,8 +31,7 @@
             android:layout_height="wrap_content"
             android:choiceMode="singleChoice"
             android:listSelector="@color/black_overlay"
-            android:id="@+id/lvSinhVien"/>
+            android:id="@+id/lvLop"/>
     </FrameLayout>
-
 
 </LinearLayout>

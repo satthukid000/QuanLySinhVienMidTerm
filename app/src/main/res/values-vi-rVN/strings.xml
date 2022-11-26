@@ -7,14 +7,15 @@
     <string name="LoginAnounymous_Btn">Đăng Nhập Ẩn Danh</string>
     <string name="empty_username_pass">Xin hãy nhập username và password</string>
     <string name="register_text"><u>Không có tài khoản?</u></string>
+
     <!--Register Activity-->
-    <string name="InputFirstName">Nhập Tên</string>
-    <string name="InputLastName">Nhập Họ</string>
-    <string name="InputUserName">Nhập Username</string>
-    <string name="InputPassword">Nhập Mật Khẩu</string>
-    <string name="InputDOB">Nhập Ngày Sinh</string>
-    <string name="InputEmail">Nhập Email</string>
-    <string name="RepeatEmail">Nhập Lại Email</string>
+
+    <string name="InputUserName">Input Username</string>
+    <string name="InputPassword">Input Password</string>
+    <string name="InputDOB">Input Date Of Birth</string>
+    <string name="InputEmail">Input Email</string>
+    <string name="RepeatEmail">Repeat Email</string>
+
     <!--Getting Started Alternative 1,2,3 Activity-->
     <string name="forget_pass">Quên mật khẩu?</string>
     <!--Creating account log-->
@@ -63,4 +64,14 @@
     <string name="mapbox_access_token">pk.eyJ1Ijoic2F0dGh1a2lkMDAwIiwiYSI6ImNsYTJjdGd1aDBnMXUzdm1vYXZ4aXdseHoifQ.5TACupCkhNiubzB0VtLm0w</string>
     <string name="confirm_delete">Xác nhận xoá?</string>
     <string name="confirm_delete_sub">Bạn có chắc muốn xoá học viên này không?</string>
+
+    <string name="PICTURE_METHOD">Chọn hình ảnh</string>
+    <string name="PICTURE_METHOD_SUB">Chọn cách thức</string>
+    <string name="TAKE_PICTURE">Dùng camera</string>
+    <string name="CHOOSE_PICTURE">Dùng thư viện ảnh</string>
+
+    <string name="add_new_class">Thêm Lớp Mới</string>
+    <string name="student_manager">QUẢN LÝ SINH VIÊN</string>
+    <string name="no_delete_class">KHÔNG XOÁ ĐƯỢC VÌ CÓ SINH VIÊN TRONG LỚP</string>
+
 </resources>

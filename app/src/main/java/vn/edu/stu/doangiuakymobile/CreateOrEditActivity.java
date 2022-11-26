@@ -3,12 +3,17 @@ package vn.edu.stu.doangiuakymobile;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,12 +22,15 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,13 +41,17 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import vn.edu.stu.doangiuakymobile.model.Lop;
 import vn.edu.stu.doangiuakymobile.model.SinhVien;
+import vn.edu.stu.doangiuakymobile.utils.FormatUtil;
 
 public class CreateOrEditActivity extends AppCompatActivity {
 
-    EditText etName, etID, etClassID, etClassName, etEmail;
+    EditText etName, etID, etEmail;
+    Spinner spinnerClass;
+
     TextView tvDOBCreate, tvAddImage;
     RadioGroup radioGroupGender;
     RadioButton radNam, radNu;
@@ -49,8 +61,15 @@ public class CreateOrEditActivity extends AppCompatActivity {
 
     Bitmap bitmap;
 
-    String ma = "", ten = "", email = "", ngaysinh = "", malop = "", tenlop = "", encodedAva = "";
+    Calendar cal;
+
+    String ma = "", ten = "", email = "", encodedAva = "";
     boolean phai = true;
+    Date ngaysinh;
+
+    ArrayList<Lop> dsLops;
+    ArrayAdapter<Lop> adapter;
+    int viTriLop = -1;
 
     int viTriSV = -1;
     public SinhVien chon;
@@ -68,21 +87,11 @@ public class CreateOrEditActivity extends AppCompatActivity {
 
     private void addEvents() {
 
-        Calendar myCalendar = Calendar.getInstance(); //đầu tiên, khởi tạo một calendar để lưu lại ngày tháng năm
-        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {  //khởi tạo một DatePicker để hiện ra cho chọn ngày tháng năm
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                myCalendar.set(Calendar.YEAR, year); //chọn năm
-                myCalendar.set(Calendar.MONTH, month);  //điền tháng
-                myCalendar.set(Calendar.DAY_OF_MONTH, day);  //chọn ngày
-                //rồi điền tất cả vào text view ngày sinh
-                tvDOBCreate.setText(myCalendar.get(Calendar.DAY_OF_MONTH) + "/" + myCalendar.get(Calendar.MONTH) + "/" + myCalendar.get(Calendar.YEAR));
-            }
-        };
         tvDOBCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(CreateOrEditActivity.this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                xuLyChonNgay();
+                //new DatePickerDialog(CreateOrEditActivity.this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -106,11 +115,48 @@ public class CreateOrEditActivity extends AppCompatActivity {
         frameLayoutImagePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                xuLyChupHinh();
+            }
+        });
+
+    }
+
+    private void xuLyChonNgay() {
+        //đầu tiên, khởi tạo một calendar để lưu lại ngày tháng năm
+        DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                cal.set(Calendar.YEAR, year); //chọn năm
+                cal.set(Calendar.MONTH, month);  //điền tháng
+                cal.set(Calendar.DAY_OF_MONTH, day);  //chọn ngày
+                tvDOBCreate.setText(FormatUtil.formatDate(cal.getTime()));
+            }
+        };
+        DatePickerDialog datePickerDialog = new DatePickerDialog(CreateOrEditActivity.this,listener,cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+        datePickerDialog.show();
+    }
+
+    private void xuLyChupHinh() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreateOrEditActivity.this);
+        builder.setTitle(R.string.PICTURE_METHOD);
+        builder.setMessage(R.string.PICTURE_METHOD_SUB);
+        builder.setPositiveButton(R.string.TAKE_PICTURE, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int j) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 5);
+            }
+        });
+        builder.setNegativeButton(R.string.CHOOSE_PICTURE, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int j) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 pickImage.launch(intent);
             }
         });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private boolean checkValid() {
@@ -118,8 +164,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
         String name = etName.getText().toString();
         String email = etEmail.getText().toString();
         String dob = tvDOBCreate.getText().toString();
-        String classname = etClassName.getText().toString();
-        String classid = etClassID.getText().toString();
+
 
         if(TextUtils.isEmpty(id)) {
             Toast.makeText(this, "Please enter ID", Toast.LENGTH_SHORT).show();
@@ -145,14 +190,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
             Toast.makeText(this, "Please select IMAGE", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(classname)){
-            Toast.makeText(this, "Please enter Class Name", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if(TextUtils.isEmpty(classid)){
-            Toast.makeText(this, "Please enter Class ID", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+
         return true;
     }
 
@@ -161,7 +199,6 @@ public class CreateOrEditActivity extends AppCompatActivity {
     }
 
     public void getSVInfo() { //nếu vị trí sinh viên nằm trong mảng dsSV tức là đã chọn sinh viên
-
         Intent intent = getIntent();
         //viTriSV = intent.getIntExtra("vitrisv", -1);
         if (intent.hasExtra("CHON")) {
@@ -170,13 +207,11 @@ public class CreateOrEditActivity extends AppCompatActivity {
                 etName.setText(chon.getTen());
                 etID.setText(chon.getMa());
                 etEmail.setText(chon.getEmail());
-                tvDOBCreate.setText(chon.getNgaysinh());
+                tvDOBCreate.setText(FormatUtil.formatDate(chon.getNgaysinh()));
                 if (chon.getPhai())
                     radNam.setChecked(true);
                 else
                     radNu.setChecked(true);
-                etClassID.setText(chon.getLop().getMalop());
-                etClassName.setText(chon.getLop().getTenlop());
                 if (chon.getAvatarEncodedStr() != null) {
                     encodedAva=chon.getAvatarEncodedStr();
                     byte[] bytes = Base64.decode(chon.getAvatarEncodedStr(), Base64.DEFAULT);  //decode string image để tạo lại ảnh đại diện người dùng và hiện lên
@@ -185,28 +220,29 @@ public class CreateOrEditActivity extends AppCompatActivity {
                 }
             }
         }
+        if(intent.hasExtra("DSLOP")){
+            dsLops = (ArrayList<Lop>) intent.getSerializableExtra("DSLOP");
+            if(dsLops!= null){
+                //Toast.makeText(CreateOrEditActivity.this, "success", Toast.LENGTH_LONG).show();
+                adapter = new ArrayAdapter<>(CreateOrEditActivity.this, android.R.layout.simple_spinner_dropdown_item,dsLops);
+                spinnerClass.setAdapter(adapter);
+            }
+        }
     }
 
     private void xuLyThemSua() {
         ma = etID.getText().toString();
         ten = etName.getText().toString();
         email = etEmail.getText().toString();
-        ngaysinh = tvDOBCreate.getText().toString();
-        malop = etClassID.getText().toString();
-        tenlop = etClassName.getText().toString();
+        ngaysinh = cal.getTime();
+
         if (radNam.isChecked())
             phai = true;
         else
             phai = false;
-//        if (encodedAva == null) {
-//            imageView.buildDrawingCache();
-//            Bitmap bitmapA = imageView.getDrawingCache();
-//            encodedAva = encodedImage(bitmapA);
-//        }
-
 
         Intent intent2 = new Intent();
-        Lop lop = new Lop(malop, tenlop);
+        Lop lop = (Lop) spinnerClass.getSelectedItem();
         chon = new SinhVien(ma, ten, email, ngaysinh, phai, lop, encodedAva);
         intent2.putExtra("TRA", chon); //trả lại học sinh thêm vào
 
@@ -229,13 +265,15 @@ public class CreateOrEditActivity extends AppCompatActivity {
     private void addControls() {
         etName = findViewById(R.id.etName);
         etID = findViewById(R.id.etID);
-        etClassID = findViewById(R.id.etClassID);
-        etClassName = findViewById(R.id.etClassName);
+
         etEmail = findViewById(R.id.etEmail);
         tvDOBCreate = findViewById(R.id.tvDOBCreate);
         imageView = findViewById(R.id.imageViewAvatar);
         frameLayoutImagePicker = findViewById(R.id.frameLayoutImagePicker);
         tvAddImage = findViewById(R.id.tvAddImage);
+
+        dsLops = new ArrayList<>();
+        spinnerClass = findViewById(R.id.spinnerClass);
 
         radioGroupGender = findViewById(R.id.radioGroupGender);
         radNam = findViewById(R.id.radNam);
@@ -243,6 +281,7 @@ public class CreateOrEditActivity extends AppCompatActivity {
 
         btnCommit = findViewById(R.id.btnCommit);
         btnBack = findViewById(R.id.btnBack);
+        cal =Calendar.getInstance();
 
         chon = null;
 
@@ -252,8 +291,6 @@ public class CreateOrEditActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         getSVInfo();
-//        Intent intenttra = new Intent();
-//        setResult(RESULT_OK, intenttra);
         finish();
 
         super.onBackPressed();
@@ -303,4 +340,16 @@ public class CreateOrEditActivity extends AppCompatActivity {
                 }
             }
     );
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 5) {
+            if(resultCode==RESULT_OK){
+                Uri uriImage = data.getData();
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                imageView.setImageBitmap(photo);
+            }
+        }
+    }
 }

@@ -10,8 +10,7 @@
     <string name="register_text"><u>Don\'t have an account? Register</u>s</string>
 
     <!--Register Activity-->
-    <string name="InputFirstName">Input First Name</string>
-    <string name="InputLastName">Input Last Name</string>
+
     <string name="InputUserName">Input Username</string>
     <string name="InputPassword">Input Password</string>
     <string name="InputDOB">Input Date Of Birth</string>
@@ -66,8 +65,13 @@
 
     <string name="confirm_delete">Confirm Delete</string>
     <string name="confirm_delete_sub">Are you sure you want to delete this student?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="PICTURE_METHOD">Choose Picture</string>
+    <string name="PICTURE_METHOD_SUB">Please choose a picture</string>
+    <string name="TAKE_PICTURE">Using camera</string>
+    <string name="CHOOSE_PICTURE">Choose a picture</string>
+    <string name="add_new_class">Add New Class</string>
+    <string name="student_manager">STUDENT MANAGER</string>
+    <string name="no_delete_class">YOU CAN NOT DELETE THIS CLASS FOR THERE ARE STUDENTS IN THIS CLASS</string>
 
 
 </resources>

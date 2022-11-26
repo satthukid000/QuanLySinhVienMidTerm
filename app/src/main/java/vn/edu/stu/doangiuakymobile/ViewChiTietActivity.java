@@ -14,6 +14,7 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 
 import vn.edu.stu.doangiuakymobile.model.Lop;
 import vn.edu.stu.doangiuakymobile.model.SinhVien;
+import vn.edu.stu.doangiuakymobile.utils.FormatUtil;
 
 public class ViewChiTietActivity extends AppCompatActivity {
     ArrayList<SinhVien> dsSV;
@@ -38,6 +40,8 @@ public class ViewChiTietActivity extends AppCompatActivity {
 
     ImageView imageViewAvatar;
     Bitmap bitmap;
+
+    ArrayList<Lop> dsLops;
 
     SinhVien chon;
 
@@ -61,7 +65,7 @@ public class ViewChiTietActivity extends AppCompatActivity {
                 tvNameDetail.setText(chon.getTen());
                 tvIDDetail.setText(chon.getMa());
                 tvClassDetail.setText(chon.getLop().toString());
-                tvDOBDetail.setText(chon.getNgaysinh());
+                tvDOBDetail.setText(FormatUtil.formatDate(chon.getNgaysinh()));
                 tvEmailDetai.setText(chon.getEmail());
                 if (chon.getPhai())
                     tvGenderDetail.setText("Nam");
@@ -73,6 +77,9 @@ public class ViewChiTietActivity extends AppCompatActivity {
                     imageViewAvatar.setImageBitmap(bitmap);
                 }
             }
+        }
+        if(intent.hasExtra("DSLOP")){
+            dsLops = (ArrayList<Lop>) intent.getSerializableExtra("DSLOP");
         }
     }
 
@@ -139,6 +146,7 @@ public class ViewChiTietActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), CreateOrEditActivity.class);
         intent.putExtra("vitrisv", vitriSV);
         intent.putExtra("CHON", chon); //đưa sinh viên đã chọn sang bên kia
+        intent.putExtra("DSLOP", dsLops);
         startActivityForResult(intent, 2);
     }
 
@@ -150,6 +158,7 @@ public class ViewChiTietActivity extends AppCompatActivity {
         tvDOBDetail = findViewById(R.id.tvDOBDetail);
         tvGenderDetail = findViewById(R.id.tvGenderDetail);
         btnBack = findViewById(R.id.btnBack);
+        dsLops = new ArrayList<>();
 
         btnEditDetail = findViewById(R.id.btnEditDetail);
         btnRemoveDetail = findViewById(R.id.btnRemoveDetail);
@@ -174,7 +183,7 @@ public class ViewChiTietActivity extends AppCompatActivity {
                     tvNameDetail.setText(tra.getTen());
                     tvIDDetail.setText(tra.getMa());
                     tvClassDetail.setText(tra.getLop().toString());
-                    tvDOBDetail.setText(tra.getNgaysinh());
+                    tvDOBDetail.setText(FormatUtil.formatDate(tra.getNgaysinh()));
                     tvEmailDetai.setText(tra.getEmail());
                     if (tra.getPhai())
                         tvGenderDetail.setText("Nam");

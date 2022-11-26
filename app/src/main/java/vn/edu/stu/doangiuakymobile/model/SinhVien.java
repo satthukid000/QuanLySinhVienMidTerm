@@ -6,11 +6,13 @@ import android.media.Image;
 import java.io.Serializable;
 import java.util.Date;
 
+import vn.edu.stu.doangiuakymobile.utils.FormatUtil;
+
 public class SinhVien implements Serializable {
     String ma;
     String ten;
     String email;
-    String ngaysinh;
+    Date ngaysinh;
     Boolean phai;
     //Bitmap avatar; //vì không thể truyền kiểu bitmap qua serializable nên phải dùng kiểu dưới
     String avatarEncodedStr; //cái này dùng để mã hoá bitmap lại về chuỗi string
@@ -37,7 +39,7 @@ public class SinhVien implements Serializable {
 //        //this.avatar = avatar;
 //    }
 
-    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, String avatarEncodedStr) {
+    public SinhVien(String ma, String ten, String email, Date ngaysinh, Boolean phai, String avatarEncodedStr) {
         this.ma = ma;
         this.ten = ten;
         this.email = email;
@@ -47,7 +49,7 @@ public class SinhVien implements Serializable {
     }
 
 
-    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai) {
+    public SinhVien(String ma, String ten, String email, Date ngaysinh, Boolean phai) {
         this.ma = ma;
         this.ten = ten;
         this.email = email;
@@ -64,7 +66,7 @@ public class SinhVien implements Serializable {
 //        this.avatar = avatar;
 //        this.lop = lop;
 //    }
-    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Lop lop, String avatarEncodedStr) {
+    public SinhVien(String ma, String ten, String email, Date ngaysinh, Boolean phai, Lop lop, String avatarEncodedStr) {
         this.ma = ma;
         this.ten = ten;
         this.email = email;
@@ -74,7 +76,7 @@ public class SinhVien implements Serializable {
         this.lop = lop;
     }
 
-    public SinhVien(String ma, String ten, String email, String ngaysinh, Boolean phai, Lop lop) {
+    public SinhVien(String ma, String ten, String email, Date ngaysinh, Boolean phai, Lop lop) {
         this.ma = ma;
         this.ten = ten;
         this.email = email;
@@ -107,11 +109,11 @@ public class SinhVien implements Serializable {
         this.email = email;
     }
 
-    public String getNgaysinh() {
+    public Date getNgaysinh() {
         return ngaysinh;
     }
 
-    public void setNgaysinh(String ngaysinh) {
+    public void setNgaysinh(Date ngaysinh) {
         this.ngaysinh = ngaysinh;
     }
 
@@ -145,14 +147,14 @@ public class SinhVien implements Serializable {
             return "Mã: " + ma +
                     "\nTên: " + ten +
                     "\nemail: " + email +
-                    "\nNgày sinh: " + ngaysinh +
+                    "\nNgày sinh: " + FormatUtil.formatDate(ngaysinh) +
                     "\nPhái: Nam" +
                     "\nLớp: " + lop;
         } else {
             return "Mã: " + ma +
                     "\nTên: " + ten +
                     "\nemail=" + email +
-                    "\nNgày sinh: " + ngaysinh +
+                    "\nNgày sinh: " + FormatUtil.formatDate(ngaysinh) +
                     "\nPhái: Nữ" +
                     "\nLớp: " + lop;
         }

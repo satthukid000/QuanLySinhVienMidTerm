@@ -4,19 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.InputType;
+import android.os.Parcelable;
 import android.util.Base64;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -24,37 +19,36 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import vn.edu.stu.doangiuakymobile.adapter.SinhVienAdapter;
 import vn.edu.stu.doangiuakymobile.model.Lop;
 import vn.edu.stu.doangiuakymobile.model.SinhVien;
-import vn.edu.stu.doangiuakymobile.util.DBUtils;
 
 public class MainActivity extends AppCompatActivity {
     ListView lvSinhVien;
 
     ArrayList<SinhVien> dsSinhViens;
+    ArrayList<Lop> dsLops;
     //ArrayAdapter<SinhVien> adapter;
 
     //adapter đã chỉnh
     SinhVienAdapter adapter;
-    Button btnAdd;
+    Button btnAdd, btnClassManager;
 
     int vitriSinhVien = -2;
 
     SinhVien chon;
+    Lop lop;
 
-    final String DB_NAME ="dbSinhVien.db";
-    final String DB_PATH_SUFFIX = "/databases/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,40 +58,8 @@ public class MainActivity extends AppCompatActivity {
         addControls();
         addEvents();
         addSinhVienExample();
-//        DBUtils.copyDBFileFromAsset(MainActivity.this, DB_NAME, DB_PATH_SUFFIX);
-//        getDataFromDB();
     }
 
-    private void getDataFromDB() {
-        SQLiteDatabase database = openOrCreateDatabase(
-                DB_NAME,
-                MODE_PRIVATE,
-                null
-        );
-//        Cursor cursor = database.rawQuery("select * from SinhVien",null);
-        Cursor cursor = database.query(
-                "SinhVien",
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        adapter.clear();
-        while (cursor.moveToNext()){
-            String ma = cursor.getString(0);
-            String ten = cursor.getString(1);
-            String email = cursor.getString(2);
-            String ngaysinh = cursor.getString(3);
-            String avatarEncoded = cursor.getString(4);
-            String lop = cursor.getString(5);
-            //SinhVien sv = new SinhVien(ma, ten, email, ngaysinh, avatarEncoded, lop);
-            //adapter.add(sv);
-        }
-        cursor.close();
-        database.close();
-    }
 
     private void addSinhVienExample() {
         Bitmap bitmapAva1 = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ava_ex1);
@@ -111,13 +73,33 @@ public class MainActivity extends AppCompatActivity {
         Lop lop2 = new Lop("Lớp 2", "Kiến trúc");
         Lop lop3 = new Lop("Lớp 3", "Kỹ Sư");
 
-        SinhVien sv1 = new SinhVien("DH51905495", "Nguyễn Trung Kiên", "kienkien@gmail.com", "23/05/2001", true, lop1,encodedAva1);
-        SinhVien sv2 = new SinhVien("DH51905123", "Hồ Thị Ngọc Hương", "b@gmail.com", "26/05/2001", false, lop1, encodedAva2);
-        SinhVien sv3 = new SinhVien("DH51999999", "Nguyễn Văn Thanh Đức", "ducducthanh2305@gmail.com", "23/05/2001", true, lop2, encodedAva3);
+        dsLops.add(lop1);
+        dsLops.add(lop2);
+        dsLops.add(lop3);
 
-        dsSinhViens.add(sv1);
-        dsSinhViens.add(sv2);
-        dsSinhViens.add(sv3);
+        String sDate1 = "31/12/1998";
+        String sDate2 = "23/05/2001";
+        String sDate3 = "25/07/2000";
+        Date date1;
+        Date date2;
+        Date date3;
+        try {
+            date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+            date2 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate2);
+            date3 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate3);
+
+            SinhVien sv1 = new SinhVien("DH51905495", "Nguyễn Trung Kiên", "kienkien@gmail.com", date1, true, lop1, encodedAva1);
+            SinhVien sv2 = new SinhVien("DH51905123", "Hồ Thị Ngọc Hương", "b@gmail.com", date2, false, lop1, encodedAva2);
+            SinhVien sv3 = new SinhVien("DH51999999", "Nguyễn Văn Thanh Đức", "ducducthanh2305@gmail.com", date3, true, lop2, encodedAva3);
+
+            dsSinhViens.add(sv1);
+            dsSinhViens.add(sv2);
+            dsSinhViens.add(sv3);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
@@ -144,10 +126,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateOrEditActivity.class);
+                intent.putExtra("DSLOP", dsLops);
                 startActivityForResult(intent, 1);
             }
         });
+        btnClassManager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                xuLyClassManager();
+            }
+        });
 
+    }
+
+    private void xuLyClassManager() {
+        Intent intent = new Intent(MainActivity.this, LopActivity.class);
+        intent.putExtra("DSLOP", dsLops);
+        intent.putExtra("DSSV", dsSinhViens);
+        startActivityForResult(intent, 116);
     }
 
 
@@ -156,10 +152,13 @@ public class MainActivity extends AppCompatActivity {
         dsSinhViens = new ArrayList<>();
         adapter = new SinhVienAdapter(MainActivity.this, R.layout.item_sinhvien_container, dsSinhViens);
         lvSinhVien.setAdapter(adapter);
+        dsLops = new ArrayList<>();
 
         btnAdd = findViewById(R.id.btnAdd);
         chon = null;
         vitriSinhVien = -1;
+
+        btnClassManager = findViewById(R.id.btnAddClass);
 
     }
 
@@ -173,13 +172,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void xemChiTietThongTin() {
         //new code here
-
         Intent intent = new Intent(getApplicationContext(), ViewChiTietActivity.class);
         intent.putExtra("vitrisv", vitriSinhVien);
         intent.putExtra("CHON", chon); //đưa sinh viên đã chọn sang bên kia
+        intent.putExtra("DSLOP", dsLops);
         startActivityForResult(intent, 2);
     }
-
 
 
     public void chinhSuaChiTietThongTin() {
@@ -187,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), CreateOrEditActivity.class);
         intent.putExtra("vitrisv", vitriSinhVien);
         intent.putExtra("CHON", chon); //đưa sinh viên đã chọn sang bên kia
+        intent.putExtra("DSLOP", dsLops);
         startActivityForResult(intent, 1);
     }
 
@@ -293,13 +292,23 @@ public class MainActivity extends AppCompatActivity {
                         chon.setNgaysinh(tra.getNgaysinh());
                         chon.setPhai(tra.getPhai());
                         chon.setLop(tra.getLop());
-                        if(tra.getAvatarEncodedStr()!=null){
+                        if (tra.getAvatarEncodedStr() != null) {
                             chon.setAvatarEncodedStr(tra.getAvatarEncodedStr());
                         }
                     }
                     adapter.notifyDataSetChanged();
                 }
                 adapter.notifyDataSetChanged();
+            }
+        }
+        //116 là chuyển sang LopActivity để thêm lớp và lấy danh sách lớp về lại main.
+        else if (requestCode == 116) {
+            if (resultCode == RESULT_OK) {
+                if(data.hasExtra("DSLOPTRA")) {
+                    dsLops = (ArrayList<Lop>) data.getSerializableExtra("DSLOPTRA");
+//                    if(dsLops!= null)
+//                        Toast.makeText(MainActivity.this, "success", Toast.LENGTH_LONG).show();
+                }
             }
         }
 
@@ -319,28 +328,28 @@ public class MainActivity extends AppCompatActivity {
                         chon.setNgaysinh(tra.getNgaysinh());
                         chon.setPhai(tra.getPhai());
                         chon.setLop(tra.getLop());
-                        if(tra.getAvatarEncodedStr()!=null){
+                        if (tra.getAvatarEncodedStr() != null) {
                             chon.setAvatarEncodedStr(tra.getAvatarEncodedStr());
                         }
                     }
                     adapter.notifyDataSetChanged();
                 }
-
                 adapter.notifyDataSetChanged();
                 int vitrixoa;
-                vitrixoa = data.getIntExtra("vitrixoa", -1);
+                vitrixoa = data.getIntExtra("vitrisinhvien", -1);
                 Boolean coxoa;
                 coxoa = data.getBooleanExtra("coxoa", false);
-                if (coxoa)
-                {
-                    dsSinhViens.remove(vitrixoa);
-                    adapter.notifyDataSetChanged();
+                if (coxoa) {
+                    if(vitrixoa>=0 && vitrixoa<adapter.getCount()) {
+                        dsSinhViens.remove(vitrixoa);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
         }
         chon = null;
-        vitriSinhVien=-1;
+        vitriSinhVien = -1;
     }
 
     @Override

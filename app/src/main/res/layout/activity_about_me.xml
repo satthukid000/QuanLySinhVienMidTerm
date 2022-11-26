@@ -92,8 +92,16 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:text="MSSV: "
+                    android:layout_weight="0.1"
+                    android:drawableStart="@drawable/icon_id"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:layout_marginStart="1dp"
+                    android:text="MSSV"
                     android:textSize="18dp"
                     android:textStyle="bold" />
 
@@ -113,11 +121,17 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:weightSum="1">
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.1"
+                    android:drawableStart="@drawable/icon_class"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
                     android:text="@string/Class"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -127,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
                     android:text="D19_TH09"
+
                     android:textAlignment="textStart"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -139,11 +154,17 @@
                 android:clickable="true"
                 android:orientation="horizontal"
                 android:weightSum="1">
-
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:drawableStart="@drawable/icon_email"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.3"
                     android:text="Email"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -170,7 +191,14 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.1"
+                    android:drawableStart="@drawable/icon_call"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
                     android:text="@string/PhoneNum"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -180,7 +208,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:text="0981545702"
+                    android:text="  0981545702"
                     android:textAlignment="textStart"
                     android:textSize="18dp"
                     android:textStyle="bold" />

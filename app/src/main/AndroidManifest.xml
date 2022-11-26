@@ -5,10 +5,8 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
 
     <application
         android:allowBackup="true"
@@ -21,8 +19,16 @@
         android:theme="@style/Theme.DoAnGiuaKyMobile"
         tools:targetApi="31">
         <activity
-            android:name=".CreateOrEditActivity"
+            android:name=".LopActivity"
             android:exported="false" />
+        <activity
+            android:name=".CreateOrEditClassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateOrEditActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ViewChiTietActivity"
             android:exported="false" />
